@@ -7,7 +7,9 @@ from nltk import *
 import operator
 from os import listdir
 from os.path import isfile, join
-onlyfiles = [ f for f in listdir("./texts") if (isfile(join("./texts",f)) and f[-4:] == ".txt")]
+path = "./data/texts"
+raw = "/raw"
+onlyfiles = [ f for f in listdir(path+raw) if (isfile(join(path+raw,f)) and f[-4:] == ".txt")]
 
 #runs some nlp on the given file
 #returns the average sentence length and a sorted array of
@@ -30,12 +32,9 @@ def process_file(filename):
 	sent_avg = word_count / len(contents)
 	return (round(sent_avg, 2), parts)
 
-results = open('./results', 'w+')
-results.write("Results: \n")
 for speech in onlyfiles:
-	results.write(speech + "\n")
-	results.write(str(process_file("./texts/" + speech)))
-	results.write("\n")
+    result = open(path + "/processed/" + speech, 'w+')
+    result.write(str(process_file(path + raw + "/" + speech)))
 #print process_file("texts/BarrackObama.txt")
 #print process_file("RonaldReagan.txt")
 
