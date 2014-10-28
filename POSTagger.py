@@ -7,9 +7,6 @@ from nltk import *
 import operator
 from os import listdir
 from os.path import isfile, join
-path = "./data/texts"
-raw = "/raw"
-onlyfiles = [ f for f in listdir(path+raw) if (isfile(join(path+raw,f)) and f[-4:] == ".txt")]
 
 #runs some nlp on the given file
 #returns the average sentence length and a sorted array of
@@ -27,16 +24,20 @@ def process_file(filename):
 		for word, pos in poss:
 			c = parts.setdefault(pos, 0) + 1
 			parts[pos]= c
-	parts = sorted(parts.items(), key=operator.itemgetter(1), reverse=True)
+	parts = sorted(parts.items(), key=operator.itemgetter(0), reverse=True)
 	parts = [(a, round(b / word_count, 2)) for (a,b) in parts]
 	sent_avg = word_count / len(contents)
 	return (round(sent_avg, 2), parts)
 
-for speech in onlyfiles:
-    result = open(path + "/processed/" + speech, 'w+')
-    result.write(str(process_file(path + raw + "/" + speech)))
+# path = "./data/texts"
+# raw = "/raw"
+# onlyfiles = [ f for f in listdir(path+raw) if (isfile(join(path+raw,f)) and f[-4:] == ".txt")]
+# for speech in onlyfiles:
+#     result = open(path + "/processed/" + speech, 'w+')
+#     result.write(str(process_file(path + raw + "/" + speech)))
 #print process_file("texts/BarrackObama.txt")
 #print process_file("RonaldReagan.txt")
+print process_file("./test/texts/JamesGarfield.txt")
 
 # uncomment the below to see the POS codes
 # help.upenn_tagset()
